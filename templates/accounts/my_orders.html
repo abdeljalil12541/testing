@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <!-- ========================= SECTION CONTENT ========================= -->
+<section style="padding-bottom: 160px;" class="section-conten padding-y bg">
+    {% include "includes/alerts.html" %}
+    <div class="container">
+        <div class="row">
+        {% include 'includes/dashboard_sidebar.html' %}
+        <main class="col-md-9">
+            <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">Your order history</strong>
+                
+            </header>
+            
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">Order #</th>
+                                <th scope="col">Billing  Name</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Order Total</th>
+                                <th scope="col" style="padding-left: 70px;">Date</th>
+                                <th scope="col">is Recieved</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in orders %}
+                              <tr>
+                                <th scope="row"><a href="{% url 'order_detail' order.order_number %}">{{order.order_number}}</a></th>
+                                <td>{{order.first_name}}</td>
+                                <td>{{order.phone}}</td>
+                                <td>${{order.order_total}}</td>
+                                <td>{{order.created_at}}</td>
+                                {% if order.status == 'pending' %}
+                                <td class="text-warning" style="padding-left: 13px;">Pending</td>
+                                {% elif order.status == 'on_delivery' %}
+                                <td class="text-success" style="padding-left: 13px;">On Delivery</td>
+                                {% elif order.status == 'received' %}
+                                <td class="text-success" style="padding-left: 13px;">Recieved</td>
+                                {% elif order.status == 'cancelled' %}
+                                <td class="text-danger" style="padding-left: 13px;">Cancelled</td>
+                                {% endif %}
+                              </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                    </div>
+                </div> <!-- row.// -->
+                <hr class="border-primary">
+                <strong class="d-inline-block mr-3 mb-3">Cod Orders History</strong>
+
+                <table class="table table-hover">
+                            <thead>
+                              <tr>
+                                <th scope="col">Order #</th>
+                                <th scope="col">Billing  Name</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Order Total</th>
+                                <th scope="col" style="padding-left: 70px;">Date</th>
+                                <th scope="col">is Recieved</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for cod_order in cod_orders %}
+                              <tr>
+                                <th scope="row"><a href="#" class="pl-3">#{{cod_order.id}}</a></th>
+                                <td>{{cod_order.full_name}}</td>
+                                <td>{{cod_order.phone}}</td>
+                                <td>{{cod_order.country}}</td>
+                                <td>{{cod_order.date}}</td>
+                                {% if cod_order.is_recievedd == 'pending' %}
+                                <td class="text-warning" style="padding-left: 23px;">Pending</td>
+                                {% elif cod_order.is_recievedd == 'on_delivery' %}
+                                <td class="text-success" style="padding-left: 23px;">On Delivery</td>
+                                {% elif cod_order.is_recievedd == 'received' %}
+                                <td class="text-success" style="padding-left: 23px;">Recieved</td>
+                                {% elif cod_order.is_recievedd == 'cancelled' %}
+                                <td class="text-danger" style="padding-left: 23px;">Cancelled</td>
+                                {% endif %}
+                              </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+            </div> <!-- card-body .// -->
+            </article>
+        </main>
+    </div> <!-- row.// -->
+    </div>
+    
+    
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+    
+
+{% endblock %}
